@@ -14,14 +14,21 @@ dotenv.config();
 
 const app = express();
 
+app.use(cors({
+  origin:["https://ui-frontend-delta.vercel.app/",
+        "http://localhost:5173"
+  ],
+  credentials: true
+}));
+app.use(express.json());
+
 app.use(cookieParser());
 
 
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+
 
  
 app.use('/uploads', express.static('uploads')); // serve image files
