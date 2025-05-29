@@ -56,22 +56,33 @@ export const getAllArticles = async (req, res) => {
 
 export const getTodayHistory = async (req, res) => {
   try {
-    const today = new Date();
-    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
-    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+    const now = new Date();
 
-    const latestHistory = await Article.findOne({
+    // Set start and end of today
+    const startOfToday = new Date(now.setHours(0, 0, 0, 0));
+    const endOfToday = new Date(now.setHours(23, 59, 59, 999));
+
+    // Try to find today's article
+    let historyArticle = await Article.findOne({
       category: 'history',
-      createdAt: { $gte: startOfDay, $lte: endOfDay }
+      createdAt: { $gte: startOfToday, $lte: endOfToday }
     }).sort({ createdAt: -1 });
 
-    if (!latestHistory) {
-      return res.status(404).json({ message: 'No history article found for today' });
+    // If not found, fallback to latest previous article
+    if (!historyArticle) {
+      historyArticle = await Article.findOne({
+        category: 'history',
+        createdAt: { $lt: startOfToday }
+      }).sort({ createdAt: -1 });
     }
 
-    res.status(200).json(latestHistory);
+    if (!historyArticle) {
+      return res.status(404).json({ message: 'No history article found' });
+    }
+
+    res.status(200).json(historyArticle);
   } catch (error) {
-    console.error("Error fetching today's history:", error);
+    console.error("Error fetching history article:", error);
     res.status(500).json({ message: 'Server error while fetching history' });
   }
 };
