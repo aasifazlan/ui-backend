@@ -38,10 +38,7 @@ router.post("/", limiter, async (req, res) => {
       const response = await mailchimp.lists.addListMember(process.env.MAILCHIMP_AUDIENCE_ID, {
         email_address: email,
         status: "subscribed",
-        merge_fields: {
-          FNAME: "", // Optional but Mailchimp requires merge fields if list uses them
-          LNAME: "",
-        },
+         
       });
 
       console.log("Mailchimp subscription ID:", response.id);
