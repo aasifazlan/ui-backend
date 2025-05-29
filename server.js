@@ -8,16 +8,15 @@ import articleRoutes from './routes/articles.js';
 import adminAuthRoutes from './routes/auth.js';
 import cookieParser from 'cookie-parser';
 import newsletterRoutes from "./routes/newsletter.js";
- 
+import contactRoute from './routes/contact.js'
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors({
-  origin:["https://ui-frontend-delta.vercel.app",
-        "http://localhost:5173"
-  ],
+  origin:"https://ui-frontend-delta.vercel.app",
+        
   credentials: true
 }));
 app.use(express.json());
@@ -37,6 +36,7 @@ app.use('/uploads', express.static('uploads')); // serve image files
 app.use('/api/facts', factRoutes);
 app.use('/api/admin', adminAuthRoutes);
 app.use('/api/articles', articleRoutes);
+app.use('/api/contact', contactRoute)
 app.use("/api/newsletter", newsletterRoutes);
 
  
