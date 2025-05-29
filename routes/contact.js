@@ -3,6 +3,6 @@ import {submitContactForm} from '../controllers/contactController.js'
 
 const router=express.Router();
 
-router.post("/", submitContactForm)
+router.post('/', submitContactForm)
 
 export default router;
