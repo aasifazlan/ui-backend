@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin:"https://ui-frontend-delta.vercel.app",
+  origin:"https://ui-optimised-frontend.vercel.app",
         
   credentials: true
 }));
